@@ -42,10 +42,10 @@ Ela instanciará objetos básicos como `Cliente`, `Funcionario`, `Livro`, `Empre
 
 ---
 
-## Projeto inicializado e realizado por 
-Túlio Pragana
-Sanclair Clemente 
-Demetryus Oliveira
+### 👨‍💻 Projeto realizado por:
+- Túlio Pragana  
+- Sanclair Clemente  
+- Demetryus Oliveira
 
 
 
