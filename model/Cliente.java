@@ -8,7 +8,7 @@ public class Cliente {
     private String nome;
     private int idade;
     private String cpf;
-    private int id;
+    public int id;
 
     private static ArrayList<Cliente> listaClientes = new ArrayList<>(); //criação de arraylist da lista de clientes
     private static int netxId = 1; //ID dos clientes para ter uma auto-incrementação quando criado novos clientes
