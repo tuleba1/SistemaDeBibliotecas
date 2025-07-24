@@ -6,24 +6,23 @@ import java.util.Iterator;
 public class Livro {
     private String titulo;
     private String autor;
-    private String isbn; // Código internacional padrão para livros
+    private String isbn; 
     private int anoPublicacao;
     private int id;
 
-    // Lista estática para armazenar todos os livros (em memória para este exemplo)
+ 
     private static ArrayList<Livro> listaLivros = new ArrayList<>();
-    private static int nextId = 1; // Para auto-incrementar IDs de livros
+    private static int nextId = 1; 
 
-    // Construtor para criar objetos Livro
+    
     public Livro(String titulo, String autor, String isbn, int anoPublicacao) {
         this.titulo = titulo;
         this.autor = autor;
         this.isbn = isbn;
         this.anoPublicacao = anoPublicacao;
-        this.id = nextId++; // Atribui ID e depois incrementa para o próximo livro
+        this.id = nextId++; 
     }
 
-    // Getters para os atributos
     public String getTitulo() {
         return titulo;
     }
@@ -44,7 +43,7 @@ public class Livro {
         return id;
     }
 
-    // Setters para atributos que podem ser atualizados
+
     public void setTitulo(String titulo) {
         this.titulo = titulo;
     }
@@ -66,20 +65,19 @@ public class Livro {
         return "ID: " + id + ", Título: " + titulo + ", Autor: " + autor + ", ISBN: " + isbn + ", Ano: " + anoPublicacao;
     }
 
-    // --- Operações CRUD ---
 
-    // Insere um novo livro na lista
+    
     public void inserirLivro() {
-        listaLivros.add(this); // 'this' refere-se ao objeto Livro atual
+        listaLivros.add(this);
         System.out.println("Livro '" + this.titulo + "' (ID: " + this.id + ") inserido com sucesso!");
     }
 
-    // Atualiza os dados de um livro existente na lista
+   
     public void atualizarLivro() {
         boolean encontrado = false;
         for (int i = 0; i < listaLivros.size(); i++) {
             if (listaLivros.get(i).getId() == this.id) {
-                listaLivros.set(i, this); // Substitui o objeto antigo pelo atualizado
+                listaLivros.set(i, this); 
                 encontrado = true;
                 System.out.println("Livro '" + this.titulo + "' (ID: " + this.id + ") atualizado com sucesso!");
                 break;
@@ -90,7 +88,7 @@ public class Livro {
         }
     }
 
-    // Remove um livro da lista baseado no seu ID
+  
     public void removerLivro() {
         Iterator<Livro> iterator = listaLivros.iterator();
         boolean removido = false;
@@ -108,7 +106,7 @@ public class Livro {
         }
     }
 
-    // Consulta e exibe todos os livros na lista
+
     public static void consultarTodosLivros() {
         if (listaLivros.isEmpty()) {
             System.out.println("Nenhum livro cadastrado.");
@@ -121,7 +119,7 @@ public class Livro {
         System.out.println("-------------------------");
     }
 
-    // Método para encontrar um único livro por ID
+   
     public static Livro consultarLivroPorId(int id) {
         for (Livro livro : listaLivros) {
             if (livro.getId() == id) {
