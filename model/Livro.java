@@ -1,132 +1,100 @@
-package model; // Declara que esta classe pertence ao pacote 'modelo'
-
-import java.util.ArrayList;
-import java.util.Iterator;
+// src/model/Livro.java
+package model;
 
 public class Livro {
     private String titulo;
-    private String autor;
-    private String isbn; 
-    private int anoPublicacao;
-    private int id;
+    private String id; // Pode ser ISBN, um código único gerado, etc.
+    private boolean disponivel;
+    private int anoAquisicao;
+    private int vezesEmprestado;
 
- 
-    private static ArrayList<Livro> listaLivros = new ArrayList<>();
-    private static int nextId = 1; 
-
-    
-    public Livro(String titulo, String autor, String isbn, int anoPublicacao) {
+    // Construtor
+    public Livro(String nome, String id, int anoAquisicao) {
         this.titulo = titulo;
-        this.autor = autor;
-        this.isbn = isbn;
-        this.anoPublicacao = anoPublicacao;
-        this.id = nextId++; 
+        this.id = id;
+        this.anoAquisicao = anoAquisicao;
+        this.disponivel = true; // Por padrão, um livro novo está disponível
+        this.vezesEmprestado = 0; // Começa com 0 empréstimos
     }
 
+    // Getters
     public String getTitulo() {
         return titulo;
     }
 
-    public String getAutor() {
-        return autor;
-    }
-
-    public String getIsbn() {
-        return isbn;
-    }
-
-    public int getAnoPublicacao() {
-        return anoPublicacao;
-    }
-
-    public int getId() {
+    public String getId() {
         return id;
     }
 
+    public boolean isDisponivel() { // Nome comum para getters de boolean
+        return disponivel;
+    }
 
+    public int getAnoAquisicao() {
+        return anoAquisicao;
+    }
+
+    public int getVezesEmprestado() {
+        return vezesEmprestado;
+    }
+
+    // Setters
     public void setTitulo(String titulo) {
         this.titulo = titulo;
     }
 
-    public void setAutor(String autor) {
-        this.autor = autor;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
+    public void setDisponivel(boolean disponivel) {
+        this.disponivel = disponivel;
     }
 
-    public void setAnoPublicacao(int anoPublicacao) {
-        this.anoPublicacao = anoPublicacao;
+    public void setAnoAquisicao(int anoAquisicao) {
+        this.anoAquisicao = anoAquisicao;
     }
 
+    // O setter para vezesEmprestado geralmente não é usado diretamente de fora,
+    // pois o incremento é feito via registrarEmprestimo(). Mas é bom ter.
+    public void setVezesEmprestado(int vezesEmprestado) {
+        this.vezesEmprestado = vezesEmprestado;
+    }
+
+    /**
+     * Registra que o livro foi emprestado: o torna indisponível e incrementa o contador de empréstimos.
+     */
+    public void registrarEmprestimo() {
+        if (this.disponivel) {
+            this.disponivel = false;
+            this.vezesEmprestado++;
+            System.out.println("[Livro] '" + this.titulo + "' foi emprestado. Total de empréstimos: " + this.vezesEmprestado);
+        } else {
+            System.out.println("[Livro] '" + this.titulo + "' já está emprestado e não pode ser registrado novamente.");
+        }
+    }
+
+    /**
+     * Registra que o livro foi devolvido: o torna disponível novamente.
+     */
+    public void registrarDevolucao() {
+        if (!this.disponivel) { // Só pode ser devolvido se não estiver disponível (ou seja, foi emprestado)
+            this.disponivel = true;
+            System.out.println("[Livro] '" + this.titulo + "' foi devolvido. Agora está disponível.");
+        } else {
+            System.out.println("[Livro] '" + this.titulo + "' já está disponível e não precisa de devolução.");
+        }
+    }
+
+    // Método toString() para facilitar a visualização dos dados do livro
     @Override
     public String toString() {
-        return "ID: " + id + ", Título: " + titulo + ", Autor: " + autor + ", ISBN: " + isbn + ", Ano: " + anoPublicacao;
-    }
-
-
-    
-    public void inserirLivro() {
-        listaLivros.add(this);
-        System.out.println("Livro '" + this.titulo + "' (ID: " + this.id + ") inserido com sucesso!");
-    }
-
-   
-    public void atualizarLivro() {
-        boolean encontrado = false;
-        for (int i = 0; i < listaLivros.size(); i++) {
-            if (listaLivros.get(i).getId() == this.id) {
-                listaLivros.set(i, this); 
-                encontrado = true;
-                System.out.println("Livro '" + this.titulo + "' (ID: " + this.id + ") atualizado com sucesso!");
-                break;
-            }
-        }
-        if (!encontrado) {
-            System.out.println("Livro com ID " + this.id + " não encontrado para atualização.");
-        }
-    }
-
-  
-    public void removerLivro() {
-        Iterator<Livro> iterator = listaLivros.iterator();
-        boolean removido = false;
-        while (iterator.hasNext()) {
-            Livro livro = iterator.next();
-            if (livro.getId() == this.id) {
-                iterator.remove();
-                removido = true;
-                System.out.println("Livro '" + this.titulo + "' (ID: " + this.id + ") removido com sucesso!");
-                break;
-            }
-        }
-        if (!removido) {
-            System.out.println("Livro com ID " + this.id + " não encontrado para remoção.");
-        }
-    }
-
-
-    public static void consultarTodosLivros() {
-        if (listaLivros.isEmpty()) {
-            System.out.println("Nenhum livro cadastrado.");
-            return;
-        }
-        System.out.println("\n--- Lista de Livros ---");
-        for (Livro livro : listaLivros) {
-            System.out.println(livro);
-        }
-        System.out.println("-------------------------");
-    }
-
-   
-    public static Livro consultarLivroPorId(int id) {
-        for (Livro livro : listaLivros) {
-            if (livro.getId() == id) {
-                return livro;
-            }
-        }
-        System.out.println("Livro com ID " + id + " não encontrado.");
-        return null;
+        return "Livro{" +
+                "nome='" + titulo + '\'' +
+                ", id='" + id + '\'' +
+                ", disponivel=" + disponivel +
+                ", anoAquisicao=" + anoAquisicao +
+                ", vezesEmprestado=" + vezesEmprestado +
+                '}';
     }
 }
